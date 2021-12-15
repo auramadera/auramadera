@@ -1,0 +1,142 @@
+---
+title: "Actividad Semanal de la clase 3"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+# Dataset
+
+
+En esta libreta vamos a trabajar con un conjunto de datos que contiene los datos de la FIFA de la copa del mundo. Disponéis de los archivos ya descargados en la sección de recursos. Utilizaremos estos tres ficheros:
+
+- WorldCupMatches.csv: Datos de los partidos disputados
+- WorldCupPlayers.csv: Datos de los jugadores que han jugado en cada partido
+- WorldCups.csv: Datos de las copas disputadas y los resultados
+
+# Introducción
+
+Mediante esta libreta vamos a explorar los datos almacenados en estos tres ficheros y a responder preguntas haciendo operaciones y transformaciones con pandas. Además de completar las celdas de código para responder a los ejercicios, cuando así se indique se deberá incluir texto en _markdown_ explicando la información o las conclusiones extraídas.
+
+```{r}
+library(dplyr)
+library(tidyr)
+```
+
+```{r}
+# Cargamos el conjunto de datos WorldCupMatches
+df_partidos <- read.csv("WorldCupMatches.csv")
+```
+
+## 1. Exploración
+
+Usar las funciones`head` y `summary` para explorar el dataframe `df_partidos`. **Documentar en markdown** brevemente la información almacenada en cada dataframe (columnas y tipo de datos).
+
+_No es necesario hacer una documentación exhaustiva, tan solo comentar aspectos principales como qué tipo de información almacena el DataFrame, cuántas filas y columnas tiene, y comentar las columnas que se consideren más relevantes._
+
+**Completar**
+
+# Mostrar las primeras filas del dataframe
+```{r}
+head (df_partidos)
+```
+**Nuestro Dataframe este compuesto por 6 filas y 20 columnas**
+
+#summary
+```{r}
+summary(df_partidos)
+```
+**Se observa que nuestro año minimo es el 1930 y como año maximo tenemos 2014, una media en años 1985 y como mediana el año 1990, se encuentran 3720 valos perdidos (NA´s)**
+ 
+ 
+
+## 2. Limpieza de datos
+
+Una de las cosas que llama la atención es la alta presencia de valores perdidos en el DataFrame `df_partidos`. Cuando trabajamos con datos obtenidos del mundo real siempre nos toparemos con problemas relacionados con la medición, captura o almacenamiento de dicha información.
+
+Localiza las filas con valores perdido. Analizar y **documentar en markdown** a qué se deben estos valores perdidos. Finalmente usar la función [drop_na](https://tidyr.tidyverse.org/reference/drop_na.html) sobre el DataFrame para eliminar los valores perdidos del DataFrame, y almacena el resultado en `df_partidos` de nuevo.
+
+**Completar**
+
+## tible nos permite modificar nuestro dataframes
+
+```{r}
+df_partidos <- tibble(x = c(1, 2, NA), y = c("a", NA, "b"))
+```
+
+## mostramos las filas con valores perdidos
+```{r}
+df_partidos %>% drop_na(x)
+```
+# Eliminamos los valores perdidos
+```{r}
+varlor <- "y"
+df_partidos %>% drop_na(x, any_of(varlor))
+```
+
+## 3. Cargar datos
+
+Crear las variables `df_jugadores` y `df_copas` que contengan los dataframes correspondientes a la lectura de los csv `WorldCupPlayers` y `WorldCups`.
+
+**Completar**
+
+
+#cargamos la libreria magrittr
+```{r}
+library(magrittr)
+```
+
+#creamos las variables
+```{r}
+df_jugadores <- data.frame(WorldCupPlayers)
+df_copas <- data.frame(WorldCups)
+```
+
+# Mostrar las primeras filas del dataframe 
+```{r}
+head(df_jugadores)
+```
+```{r}
+head(df_copas)
+```
+
+## 4. Rango temporal
+
+El dataframe `df_copas` contiene datos de todos los mundiales disputados. ¿Cuál es el año del mundial más antiguo disputado? ¿Y el año del mundial más reciente?
+
+**Pista:** recuerda que podemos usar funciones de agregación (`min` `mean`, etc.) directamente sobre columnas. Por ejemplo, el siguiente código nos muestra el mayor número de goles marcado en un mundial.
+
+# Muestra mayor numero de goles marcados en un mundial
+```{r}
+max(df_copas$GoalsScored)
+
+```
+# Muestra el año del mundial mas antiguo disputado
+```{r}
+min(df_copas$Year, na.rm=TRUE)
+```
+# Muestra el año del mundial mas reciente disputado
+```{r}
+max(df_copas$Year, na.rm=TRUE)
+```
+
+**El año más antiguo es 1930 (utilizamos min, porque nos muestra el valor menor, en cuestion de fecha la mas antigua**
+
+**El año del mundial mas reciente es el 2014 (contrario a min, max nos muestra el valor maximo por lo que en cuestion de fecha es la reciente**
+
+**Opcional:** Una vez localizados los años de interés (más antiguo y más reciente) visualizar las filas completas correspondientes a cada año usando la función `filter`.
+
+**Completar**
+
+#mostramos las columnas de las filas correspondiente al año del mundial mas antiguo y mas reciente
+
+
+```{r}
+filter(df_copas,Year==1930)
+```
+
+```{r}
+filter(df_copas,Year==2014)
+```
